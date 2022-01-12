@@ -7,7 +7,7 @@ from .models import Flat, Complain
 class AuthorAdmin(admin.ModelAdmin):
     search_fields = ('town',)
     readonly_fields = ('created_at',)
-    list_display = ('address', 'price', 'new_building', 'construction_year',)
+    list_display = ('address', 'price', 'new_building', 'construction_year', 'owner_pure_number')
     list_editable = ('new_building',)
     list_filter = ('new_building', 'rooms_number', 'has_balcony')
     raw_id_fields = ('liked_by',)
