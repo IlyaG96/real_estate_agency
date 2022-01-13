@@ -2,15 +2,17 @@
 
 from django.db import migrations
 import phonenumbers
+from phonenumbers.phonenumberutil import NumberParseException
 
 
 def serialize_number(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
     for flat in Flat.objects.all().only('owners_phonenumber', 'owner_pure_number'):
-        number_to_serialize = flat.owners_phonenumber
-        phonenumbers_obj = phonenumbers.parse(number_to_serialize, "RU")
-        flat.owner_pure_number = phonenumbers.format_number(phonenumbers_obj, phonenumbers.PhoneNumberFormat.E164)
-        flat.save()
+        number = flat.owners_phonenumber
+        number_to_serialize = phonenumbers.parse(number, 'RU')
+        if phonenumbers.is_valid_number(number_to_serialize):
+            flat.owner_pure_number = phonenumbers.format_number(number_to_serialize, phonenumbers.PhoneNumberFormat.E164)
+            flat.save()
 
 
 class Migration(migrations.Migration):
