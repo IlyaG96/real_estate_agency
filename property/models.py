@@ -95,3 +95,36 @@ class Complain(models.Model):
     class Meta:
         verbose_name = 'Жалоба'
         verbose_name_plural = 'Жалобы'
+
+
+class Owner(models.Model):
+    flat_owner = models.ForeignKey(
+        Flat,
+        on_delete=models.CASCADE,
+        verbose_name='ФИО владельца',
+        related_name='flat_owner')
+
+    owners_phonenumber = models.ForeignKey(
+        Flat,
+        on_delete=models.CASCADE,
+        verbose_name='Номер владельца',
+        related_name='owner_phonenumber')
+
+    owner_pure_number = models.ForeignKey(
+        Flat,
+        on_delete=models.CASCADE,
+        verbose_name='Нормализованный номер владельца',
+        related_name='owner_pure_phonenumber')
+
+    flats = models.ManyToManyField(
+        Flat,
+        related_name='flats',
+        verbose_name='Квартиры в собственности')
+
+    def __str__(self):
+        return f'{self.owner}'
+
+    class Meta:
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
+
