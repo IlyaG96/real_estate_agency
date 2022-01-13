@@ -7,7 +7,8 @@ from phonenumber_field.modelfields import PhoneNumberField
 class Flat(models.Model):
     owner = models.CharField(
         'ФИО владельца',
-        max_length=200)
+        max_length=200,
+        db_index=True)
     owners_phonenumber = models.CharField(
         'Номер владельца',
         max_length=20)
@@ -100,7 +101,8 @@ class Complain(models.Model):
 class Owner(models.Model):
     flat_owner = models.CharField(
         max_length=200,
-        verbose_name='ФИО владельца')
+        verbose_name='ФИО владельца',
+        db_index=True)
 
     owners_phonenumber = models.CharField(
             'Номер владельца',
@@ -114,8 +116,9 @@ class Owner(models.Model):
 
     flats = models.ManyToManyField(
         Flat,
-        related_name='flats',
-        verbose_name='Квартиры в собственности')
+        related_name='flats_in_own',
+        verbose_name='Квартиры в собственности',
+        db_index=True)
 
     def __str__(self):
         return f'{self.flat_owner}'
