@@ -20,4 +20,4 @@ class ComplainAdmin(admin.ModelAdmin):
 
 @admin.register(Owner)
 class OwnerAdmin(admin.ModelAdmin):
-    raw_id_fields = ('owners_phonenumber', 'owner_pure_number', 'flats', 'flat_owner')
+    raw_id_fields = ('flats',)

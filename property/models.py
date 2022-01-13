@@ -98,23 +98,19 @@ class Complain(models.Model):
 
 
 class Owner(models.Model):
-    flat_owner = models.ForeignKey(
-        Flat,
-        on_delete=models.CASCADE,
-        verbose_name='ФИО владельца',
-        related_name='flat_owner')
+    flat_owner = models.CharField(
+        max_length=200,
+        verbose_name='ФИО владельца')
 
-    owners_phonenumber = models.ForeignKey(
-        Flat,
-        on_delete=models.CASCADE,
-        verbose_name='Номер владельца',
-        related_name='owner_phonenumber')
+    owners_phonenumber = models.CharField(
+            'Номер владельца',
+            max_length=20)
 
-    owner_pure_number = models.ForeignKey(
-        Flat,
-        on_delete=models.CASCADE,
-        verbose_name='Нормализованный номер владельца',
-        related_name='owner_pure_phonenumber')
+    owner_pure_number = PhoneNumberField(
+        'Номер владельца',
+        max_length=20,
+        null=True,
+        blank=True)
 
     flats = models.ManyToManyField(
         Flat,
@@ -122,7 +118,7 @@ class Owner(models.Model):
         verbose_name='Квартиры в собственности')
 
     def __str__(self):
-        return f'{self.owner}'
+        return f'{self.flat_owner}'
 
     class Meta:
         verbose_name = 'Пользователь'
