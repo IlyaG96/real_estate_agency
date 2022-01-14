@@ -3,17 +3,14 @@
 from django.db import migrations
 
 
-def move_users(apps, schema_editor):
+def add_flat_to_owner(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
     Owner = apps.get_model('property', 'Owner')
     flats = Flat.objects.all().only('owner', 'id')
     for flat in flats:
-        try:
-            owner = Owner.objects.get(flat_owner=flat.owner)
-            owner.flats.set([flat.id])
-            owner.save()
-        except Owner.MultipleObjectsReturned:
-            pass
+        owner = Owner.objects.get(flat_owner=flat.owner)
+        owner.flats.set([flat.id])
+        owner.save()
 
 
 class Migration(migrations.Migration):
@@ -23,7 +20,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(move_users)
+        migrations.RunPython(add_flat_to_owner)
     ]
 
 
