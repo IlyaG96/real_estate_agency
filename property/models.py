@@ -57,7 +57,8 @@ class Flat(models.Model):
         blank=True,
         db_index=True)
     new_building = models.NullBooleanField(
-        'Новостройка')
+        'Новостройка',
+        db_index=True)
     liked_by = models.ManyToManyField(
         User,
         related_name='liked_flats',
@@ -74,13 +75,15 @@ class Flat(models.Model):
 
 
 class Complain(models.Model):
-    user = models.ForeignKey(
+    owner = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        verbose_name='Кто жаловался')
+        verbose_name='Кто жаловался',
+        related_name='complainer')
     flat = models.ForeignKey(
         Flat, on_delete=models.CASCADE,
-        verbose_name='Квартира')
+        verbose_name='Квартира',
+        related_name='complained_flat')
     complain = models.TextField(
         verbose_name='Текст жалобы')
 
