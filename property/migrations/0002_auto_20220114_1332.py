@@ -21,7 +21,7 @@ def add_flat_to_owner(apps, schema_editor):
 def is_new_building(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
     for flat in Flat.objects.all().only('new_building', 'construction_year'):
-        flat.new_building = True if flat.construction_year >= 2015 else False
+        flat.new_building = flat.construction_year >= 2015
         flat.save()
 
 
