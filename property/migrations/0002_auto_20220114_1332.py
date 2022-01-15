@@ -74,8 +74,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('complain', models.TextField(verbose_name='Текст жалобы')),
-                ('flat', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='property.Flat', verbose_name='Квартира')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='Кто жаловался')),
+                ('flat', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='property.Flat', verbose_name='Квартира', related_name='complained_flat')),
+                ('flat_owner', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='Кто жаловался', related_name='complainer')),
             ],
             options={
                 'verbose_name': 'Жалоба',
@@ -86,7 +86,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='flat',
             name='new_building',
-            field=models.NullBooleanField(verbose_name='Новостройка'),
+            field=models.NullBooleanField(verbose_name='Новостройка', db_index=True),
         ),
 
         migrations.AddField(
